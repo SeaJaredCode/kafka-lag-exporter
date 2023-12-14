@@ -92,9 +92,10 @@ class PrometheusEndpointSink private (
           s"No metric with definition ${m.definition.name} registered"
         )
       )
-      metric
-        .labels(getGlobalLabelValuesOrDefault(m.clusterName) ++ m.labels: _*)
-        .set(m.value)
+      if (!m.value.isNaN)
+        metric
+          .labels(getGlobalLabelValuesOrDefault(m.clusterName) ++ m.labels: _*)
+          .set(m.value)
     }
   }
 
